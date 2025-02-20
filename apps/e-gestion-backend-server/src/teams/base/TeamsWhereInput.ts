@@ -11,12 +11,26 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { StringFilter } from "../../util/StringFilter";
+import { DepartmentsWhereUniqueInput } from "../../departments/base/DepartmentsWhereUniqueInput";
+import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
-import { IsOptional } from "class-validator";
+import { StringFilter } from "../../util/StringFilter";
+import { StringNullableFilter } from "../../util/StringNullableFilter";
 
 @InputType()
 class TeamsWhereInput {
+  @ApiProperty({
+    required: false,
+    type: () => DepartmentsWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => DepartmentsWhereUniqueInput)
+  @IsOptional()
+  @Field(() => DepartmentsWhereUniqueInput, {
+    nullable: true,
+  })
+  department?: DepartmentsWhereUniqueInput;
+
   @ApiProperty({
     required: false,
     type: StringFilter,
@@ -27,6 +41,28 @@ class TeamsWhereInput {
     nullable: true,
   })
   id?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  name?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  teamLeader?: StringNullableFilter;
 }
 
 export { TeamsWhereInput as TeamsWhereInput };

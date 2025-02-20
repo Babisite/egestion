@@ -29,10 +29,27 @@ export class TeamsControllerBase {
   @swagger.ApiCreatedResponse({ type: Teams })
   async createTeams(@common.Body() data: TeamsCreateInput): Promise<Teams> {
     return await this.service.createTeams({
-      data: data,
+      data: {
+        ...data,
+
+        department: data.department
+          ? {
+              connect: data.department,
+            }
+          : undefined,
+      },
       select: {
         createdAt: true,
+
+        department: {
+          select: {
+            id: true,
+          },
+        },
+
         id: true,
+        name: true,
+        teamLeader: true,
         updatedAt: true,
       },
     });
@@ -47,7 +64,16 @@ export class TeamsControllerBase {
       ...args,
       select: {
         createdAt: true,
+
+        department: {
+          select: {
+            id: true,
+          },
+        },
+
         id: true,
+        name: true,
+        teamLeader: true,
         updatedAt: true,
       },
     });
@@ -63,7 +89,16 @@ export class TeamsControllerBase {
       where: params,
       select: {
         createdAt: true,
+
+        department: {
+          select: {
+            id: true,
+          },
+        },
+
         id: true,
+        name: true,
+        teamLeader: true,
         updatedAt: true,
       },
     });
@@ -85,10 +120,27 @@ export class TeamsControllerBase {
     try {
       return await this.service.updateTeams({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          department: data.department
+            ? {
+                connect: data.department,
+              }
+            : undefined,
+        },
         select: {
           createdAt: true,
+
+          department: {
+            select: {
+              id: true,
+            },
+          },
+
           id: true,
+          name: true,
+          teamLeader: true,
           updatedAt: true,
         },
       });
@@ -113,7 +165,16 @@ export class TeamsControllerBase {
         where: params,
         select: {
           createdAt: true,
+
+          department: {
+            select: {
+              id: true,
+            },
+          },
+
           id: true,
+          name: true,
+          teamLeader: true,
           updatedAt: true,
         },
       });

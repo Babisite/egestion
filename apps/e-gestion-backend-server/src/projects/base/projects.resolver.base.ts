@@ -17,7 +17,11 @@ import { Projects } from "./Projects";
 import { ProjectsCountArgs } from "./ProjectsCountArgs";
 import { ProjectsFindManyArgs } from "./ProjectsFindManyArgs";
 import { ProjectsFindUniqueArgs } from "./ProjectsFindUniqueArgs";
+import { CreateProjectsArgs } from "./CreateProjectsArgs";
+import { UpdateProjectsArgs } from "./UpdateProjectsArgs";
 import { DeleteProjectsArgs } from "./DeleteProjectsArgs";
+import { TasksFindManyArgs } from "../../tasks/base/TasksFindManyArgs";
+import { Tasks } from "../../tasks/base/Tasks";
 import { ProjectsService } from "../projects.service";
 @graphql.Resolver(() => Projects)
 export class ProjectsResolverBase {
@@ -51,6 +55,35 @@ export class ProjectsResolverBase {
   }
 
   @graphql.Mutation(() => Projects)
+  async createProjects(
+    @graphql.Args() args: CreateProjectsArgs
+  ): Promise<Projects> {
+    return await this.service.createProjects({
+      ...args,
+      data: args.data,
+    });
+  }
+
+  @graphql.Mutation(() => Projects)
+  async updateProjects(
+    @graphql.Args() args: UpdateProjectsArgs
+  ): Promise<Projects | null> {
+    try {
+      return await this.service.updateProjects({
+        ...args,
+        data: args.data,
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new GraphQLError(
+          `No resource was found for ${JSON.stringify(args.where)}`
+        );
+      }
+      throw error;
+    }
+  }
+
+  @graphql.Mutation(() => Projects)
   async deleteProjects(
     @graphql.Args() args: DeleteProjectsArgs
   ): Promise<Projects | null> {
@@ -64,5 +97,19 @@ export class ProjectsResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => [Tasks], { name: "tasksItems" })
+  async findTasksItems(
+    @graphql.Parent() parent: Projects,
+    @graphql.Args() args: TasksFindManyArgs
+  ): Promise<Tasks[]> {
+    const results = await this.service.findTasksItems(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 }

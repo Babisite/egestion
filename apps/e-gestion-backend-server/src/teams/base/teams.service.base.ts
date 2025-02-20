@@ -10,7 +10,11 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
-import { Prisma, Teams as PrismaTeams } from "@prisma/client";
+import {
+  Prisma,
+  Teams as PrismaTeams,
+  Departments as PrismaDepartments,
+} from "@prisma/client";
 
 export class TeamsServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
@@ -33,5 +37,13 @@ export class TeamsServiceBase {
   }
   async deleteTeams(args: Prisma.TeamsDeleteArgs): Promise<PrismaTeams> {
     return this.prisma.teams.delete(args);
+  }
+
+  async getDepartment(parentId: string): Promise<PrismaDepartments | null> {
+    return this.prisma.teams
+      .findUnique({
+        where: { id: parentId },
+      })
+      .department();
   }
 }

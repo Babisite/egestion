@@ -9,5 +9,25 @@ https://docs.amplication.com/how-to/custom-code
 
 ------------------------------------------------------------------------------
   */
-class ProjectsCreateInput {}
+import { InputType, Field } from "@nestjs/graphql";
+import { ApiProperty } from "@nestjs/swagger";
+import { TasksCreateNestedManyWithoutProjectsItemsInput } from "./TasksCreateNestedManyWithoutProjectsItemsInput";
+import { ValidateNested, IsOptional } from "class-validator";
+import { Type } from "class-transformer";
+
+@InputType()
+class ProjectsCreateInput {
+  @ApiProperty({
+    required: false,
+    type: () => TasksCreateNestedManyWithoutProjectsItemsInput,
+  })
+  @ValidateNested()
+  @Type(() => TasksCreateNestedManyWithoutProjectsItemsInput)
+  @IsOptional()
+  @Field(() => TasksCreateNestedManyWithoutProjectsItemsInput, {
+    nullable: true,
+  })
+  tasksItems?: TasksCreateNestedManyWithoutProjectsItemsInput;
+}
+
 export { ProjectsCreateInput as ProjectsCreateInput };

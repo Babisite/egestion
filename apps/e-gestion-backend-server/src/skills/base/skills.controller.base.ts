@@ -31,8 +31,11 @@ export class SkillsControllerBase {
     return await this.service.createSkills({
       data: data,
       select: {
+        category: true,
         createdAt: true,
+        description: true,
         id: true,
+        name: true,
         updatedAt: true,
       },
     });
@@ -46,8 +49,11 @@ export class SkillsControllerBase {
     return this.service.skillsItems({
       ...args,
       select: {
+        category: true,
         createdAt: true,
+        description: true,
         id: true,
+        name: true,
         updatedAt: true,
       },
     });
@@ -62,8 +68,11 @@ export class SkillsControllerBase {
     const result = await this.service.skills({
       where: params,
       select: {
+        category: true,
         createdAt: true,
+        description: true,
         id: true,
+        name: true,
         updatedAt: true,
       },
     });
@@ -87,8 +96,11 @@ export class SkillsControllerBase {
         where: params,
         data: data,
         select: {
+          category: true,
           createdAt: true,
+          description: true,
           id: true,
+          name: true,
           updatedAt: true,
         },
       });
@@ -112,8 +124,11 @@ export class SkillsControllerBase {
       return await this.service.deleteSkills({
         where: params,
         select: {
+          category: true,
           createdAt: true,
+          description: true,
           id: true,
+          name: true,
           updatedAt: true,
         },
       });

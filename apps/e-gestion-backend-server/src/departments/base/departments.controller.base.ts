@@ -22,6 +22,9 @@ import { Departments } from "./Departments";
 import { DepartmentsFindManyArgs } from "./DepartmentsFindManyArgs";
 import { DepartmentsWhereUniqueInput } from "./DepartmentsWhereUniqueInput";
 import { DepartmentsUpdateInput } from "./DepartmentsUpdateInput";
+import { TeamsFindManyArgs } from "../../teams/base/TeamsFindManyArgs";
+import { Teams } from "../../teams/base/Teams";
+import { TeamsWhereUniqueInput } from "../../teams/base/TeamsWhereUniqueInput";
 
 export class DepartmentsControllerBase {
   constructor(protected readonly service: DepartmentsService) {}
@@ -34,7 +37,10 @@ export class DepartmentsControllerBase {
       data: data,
       select: {
         createdAt: true,
+        description: true,
         id: true,
+        manager: true,
+        name: true,
         updatedAt: true,
       },
     });
@@ -51,7 +57,10 @@ export class DepartmentsControllerBase {
       ...args,
       select: {
         createdAt: true,
+        description: true,
         id: true,
+        manager: true,
+        name: true,
         updatedAt: true,
       },
     });
@@ -67,7 +76,10 @@ export class DepartmentsControllerBase {
       where: params,
       select: {
         createdAt: true,
+        description: true,
         id: true,
+        manager: true,
+        name: true,
         updatedAt: true,
       },
     });
@@ -92,7 +104,10 @@ export class DepartmentsControllerBase {
         data: data,
         select: {
           createdAt: true,
+          description: true,
           id: true,
+          manager: true,
+          name: true,
           updatedAt: true,
         },
       });
@@ -117,7 +132,10 @@ export class DepartmentsControllerBase {
         where: params,
         select: {
           createdAt: true,
+          description: true,
           id: true,
+          manager: true,
+          name: true,
           updatedAt: true,
         },
       });
@@ -129,5 +147,88 @@ export class DepartmentsControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.Get("/:id/teamsItems")
+  @ApiNestedQuery(TeamsFindManyArgs)
+  async findTeamsItems(
+    @common.Req() request: Request,
+    @common.Param() params: DepartmentsWhereUniqueInput
+  ): Promise<Teams[]> {
+    const query = plainToClass(TeamsFindManyArgs, request.query);
+    const results = await this.service.findTeamsItems(params.id, {
+      ...query,
+      select: {
+        createdAt: true,
+
+        department: {
+          select: {
+            id: true,
+          },
+        },
+
+        id: true,
+        name: true,
+        teamLeader: true,
+        updatedAt: true,
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/teamsItems")
+  async connectTeamsItems(
+    @common.Param() params: DepartmentsWhereUniqueInput,
+    @common.Body() body: TeamsWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      teamsItems: {
+        connect: body,
+      },
+    };
+    await this.service.updateDepartments({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/teamsItems")
+  async updateTeamsItems(
+    @common.Param() params: DepartmentsWhereUniqueInput,
+    @common.Body() body: TeamsWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      teamsItems: {
+        set: body,
+      },
+    };
+    await this.service.updateDepartments({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/teamsItems")
+  async disconnectTeamsItems(
+    @common.Param() params: DepartmentsWhereUniqueInput,
+    @common.Body() body: TeamsWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      teamsItems: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateDepartments({
+      where: params,
+      data,
+      select: { id: true },
+    });
   }
 }

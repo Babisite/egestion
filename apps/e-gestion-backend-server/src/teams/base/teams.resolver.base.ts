@@ -17,7 +17,10 @@ import { Teams } from "./Teams";
 import { TeamsCountArgs } from "./TeamsCountArgs";
 import { TeamsFindManyArgs } from "./TeamsFindManyArgs";
 import { TeamsFindUniqueArgs } from "./TeamsFindUniqueArgs";
+import { CreateTeamsArgs } from "./CreateTeamsArgs";
+import { UpdateTeamsArgs } from "./UpdateTeamsArgs";
 import { DeleteTeamsArgs } from "./DeleteTeamsArgs";
+import { Departments } from "../../departments/base/Departments";
 import { TeamsService } from "../teams.service";
 @graphql.Resolver(() => Teams)
 export class TeamsResolverBase {
@@ -49,6 +52,49 @@ export class TeamsResolverBase {
   }
 
   @graphql.Mutation(() => Teams)
+  async createTeams(@graphql.Args() args: CreateTeamsArgs): Promise<Teams> {
+    return await this.service.createTeams({
+      ...args,
+      data: {
+        ...args.data,
+
+        department: args.data.department
+          ? {
+              connect: args.data.department,
+            }
+          : undefined,
+      },
+    });
+  }
+
+  @graphql.Mutation(() => Teams)
+  async updateTeams(
+    @graphql.Args() args: UpdateTeamsArgs
+  ): Promise<Teams | null> {
+    try {
+      return await this.service.updateTeams({
+        ...args,
+        data: {
+          ...args.data,
+
+          department: args.data.department
+            ? {
+                connect: args.data.department,
+              }
+            : undefined,
+        },
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new GraphQLError(
+          `No resource was found for ${JSON.stringify(args.where)}`
+        );
+      }
+      throw error;
+    }
+  }
+
+  @graphql.Mutation(() => Teams)
   async deleteTeams(
     @graphql.Args() args: DeleteTeamsArgs
   ): Promise<Teams | null> {
@@ -62,5 +108,20 @@ export class TeamsResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => Departments, {
+    nullable: true,
+    name: "department",
+  })
+  async getDepartment(
+    @graphql.Parent() parent: Teams
+  ): Promise<Departments | null> {
+    const result = await this.service.getDepartment(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }

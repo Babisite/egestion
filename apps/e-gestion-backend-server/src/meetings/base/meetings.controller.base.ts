@@ -34,7 +34,14 @@ export class MeetingsControllerBase {
       data: data,
       select: {
         createdAt: true,
+        description: true,
+        duration: true,
         id: true,
+        location: true,
+        meetingDate: true,
+        meetingType: true,
+        organizer: true,
+        title: true,
         updatedAt: true,
       },
     });
@@ -49,7 +56,14 @@ export class MeetingsControllerBase {
       ...args,
       select: {
         createdAt: true,
+        description: true,
+        duration: true,
         id: true,
+        location: true,
+        meetingDate: true,
+        meetingType: true,
+        organizer: true,
+        title: true,
         updatedAt: true,
       },
     });
@@ -65,7 +79,14 @@ export class MeetingsControllerBase {
       where: params,
       select: {
         createdAt: true,
+        description: true,
+        duration: true,
         id: true,
+        location: true,
+        meetingDate: true,
+        meetingType: true,
+        organizer: true,
+        title: true,
         updatedAt: true,
       },
     });
@@ -90,7 +111,14 @@ export class MeetingsControllerBase {
         data: data,
         select: {
           createdAt: true,
+          description: true,
+          duration: true,
           id: true,
+          location: true,
+          meetingDate: true,
+          meetingType: true,
+          organizer: true,
+          title: true,
           updatedAt: true,
         },
       });
@@ -115,7 +143,14 @@ export class MeetingsControllerBase {
         where: params,
         select: {
           createdAt: true,
+          description: true,
+          duration: true,
           id: true,
+          location: true,
+          meetingDate: true,
+          meetingType: true,
+          organizer: true,
+          title: true,
           updatedAt: true,
         },
       });

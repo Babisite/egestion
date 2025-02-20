@@ -8,39 +8,70 @@ generator client {
 }
 
 model Departments {
-  createdAt DateTime @default(now())
-  id        String   @id @default(cuid())
-  updatedAt DateTime @updatedAt
-}
-
-model Skills {
-  createdAt DateTime @default(now())
-  id        String   @id @default(cuid())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime @default(now())
+  description String?
+  id          String   @id @default(cuid())
+  manager     String?
+  name        String?
+  teamsItems  Teams[]
+  updatedAt   DateTime @updatedAt
 }
 
 model Projects {
-  createdAt DateTime @default(now())
-  id        String   @id @default(cuid())
-  updatedAt DateTime @updatedAt
+  createdAt  DateTime @default(now())
+  id         String   @id @default(cuid())
+  tasksItems Tasks[]
+  updatedAt  DateTime @updatedAt
+}
+
+model Skills {
+  category    String?
+  createdAt   DateTime @default(now())
+  description String?
+  id          String   @id @default(cuid())
+  name        String?
+  updatedAt   DateTime @updatedAt
 }
 
 model Teams {
-  createdAt DateTime @default(now())
-  id        String   @id @default(cuid())
-  updatedAt DateTime @updatedAt
-}
-
-model Meetings {
-  createdAt DateTime @default(now())
-  id        String   @id @default(cuid())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime     @default(now())
+  department   Departments? @relation(fields: [departmentId], references: [id])
+  departmentId String?
+  id           String       @id @default(cuid())
+  name         String?
+  teamLeader   String?
+  updatedAt    DateTime     @updatedAt
 }
 
 model Tasks {
-  createdAt DateTime @default(now())
-  id        String   @id @default(cuid())
-  updatedAt DateTime @updatedAt
+  actualHours      Float?
+  checklist        Json?
+  createdAt        DateTime  @default(now())
+  description      String?
+  dueDate          DateTime?
+  estimatedHours   Float?
+  id               String    @id @default(cuid())
+  labels           String?
+  priority         String?
+  project          Projects? @relation(fields: [projectId], references: [id])
+  projectId        String?
+  recurringPattern String?
+  status           String?
+  title            String?
+  updatedAt        DateTime  @updatedAt
+}
+
+model Meetings {
+  createdAt   DateTime  @default(now())
+  description String?
+  duration    Int?
+  id          String    @id @default(cuid())
+  location    String?
+  meetingDate DateTime?
+  meetingType String?
+  organizer   String?
+  title       String?
+  updatedAt   DateTime  @updatedAt
 }
 
 model Resources {
@@ -50,13 +81,45 @@ model Resources {
 }
 
 model User {
-  createdAt DateTime @default(now())
-  email     String?  @unique
-  firstName String?
-  id        String   @id @default(cuid())
-  lastName  String?
-  password  String
-  roles     Json
-  updatedAt DateTime @updatedAt
-  username  String   @unique
+  address                 Json?
+  age                     Int?
+  bankDetails             Json?
+  createdAt               DateTime                 @default(now())
+  department              String?
+  documents               Json?
+  email                   String?                  @unique
+  emergencyContact        Json?
+  firstName               String?
+  firstname               String?
+  hireDate                DateTime?
+  id                      String                   @id @default(cuid())
+  isActive                Boolean?
+  lastLoginDate           DateTime?
+  lastName                String?
+  lastname                String?
+  notificationPreferences Json?
+  password                String
+  phoneNumber             String?
+  preferences             Json?
+  profilePictureUrl       String?
+  role                    String?
+  roles                   Json
+  securityClearance       String?
+  skills                  EnumUserSkills[]
+  socialLinks             Json?
+  status                  String?
+  themePreference         EnumUserThemePreference?
+  updatedAt               DateTime                 @updatedAt
+  username                String                   @unique
+  vacationDays            Int?
+  workingHours            Json?
+  workspaceSettings       Json?
+}
+
+enum EnumUserSkills {
+  Option1
+}
+
+enum EnumUserThemePreference {
+  Option1
 }

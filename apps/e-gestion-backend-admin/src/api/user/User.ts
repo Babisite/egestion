@@ -1,12 +1,36 @@
 import { JsonValue } from "type-fest";
 
 export type User = {
+  address: JsonValue;
+  age: number | null;
+  bankDetails: JsonValue;
   createdAt: Date;
+  department: string | null;
+  documents: JsonValue;
   email: string | null;
+  emergencyContact: JsonValue;
   firstName: string | null;
+  firstname: string | null;
+  hireDate: Date | null;
   id: string;
+  isActive: boolean | null;
+  lastLoginDate: Date | null;
   lastName: string | null;
+  lastname: string | null;
+  notificationPreferences: JsonValue;
+  phoneNumber: string | null;
+  preferences: JsonValue;
+  profilePictureUrl: string | null;
+  role: string | null;
   roles: JsonValue;
+  securityClearance: string | null;
+  skills?: Array<"Option1">;
+  socialLinks: JsonValue;
+  status: string | null;
+  themePreference?: "Option1" | null;
   updatedAt: Date;
   username: string;
+  vacationDays: number | null;
+  workingHours: JsonValue;
+  workspaceSettings: JsonValue;
 };

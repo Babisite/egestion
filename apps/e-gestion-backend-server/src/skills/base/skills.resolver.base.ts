@@ -17,6 +17,8 @@ import { Skills } from "./Skills";
 import { SkillsCountArgs } from "./SkillsCountArgs";
 import { SkillsFindManyArgs } from "./SkillsFindManyArgs";
 import { SkillsFindUniqueArgs } from "./SkillsFindUniqueArgs";
+import { CreateSkillsArgs } from "./CreateSkillsArgs";
+import { UpdateSkillsArgs } from "./UpdateSkillsArgs";
 import { DeleteSkillsArgs } from "./DeleteSkillsArgs";
 import { SkillsService } from "../skills.service";
 @graphql.Resolver(() => Skills)
@@ -48,6 +50,33 @@ export class SkillsResolverBase {
       return null;
     }
     return result;
+  }
+
+  @graphql.Mutation(() => Skills)
+  async createSkills(@graphql.Args() args: CreateSkillsArgs): Promise<Skills> {
+    return await this.service.createSkills({
+      ...args,
+      data: args.data,
+    });
+  }
+
+  @graphql.Mutation(() => Skills)
+  async updateSkills(
+    @graphql.Args() args: UpdateSkillsArgs
+  ): Promise<Skills | null> {
+    try {
+      return await this.service.updateSkills({
+        ...args,
+        data: args.data,
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new GraphQLError(
+          `No resource was found for ${JSON.stringify(args.where)}`
+        );
+      }
+      throw error;
+    }
   }
 
   @graphql.Mutation(() => Skills)
