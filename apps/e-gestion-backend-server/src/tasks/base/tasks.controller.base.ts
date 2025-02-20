@@ -29,10 +29,35 @@ export class TasksControllerBase {
   @swagger.ApiCreatedResponse({ type: Tasks })
   async createTasks(@common.Body() data: TasksCreateInput): Promise<Tasks> {
     return await this.service.createTasks({
-      data: data,
+      data: {
+        ...data,
+
+        project: data.project
+          ? {
+              connect: data.project,
+            }
+          : undefined,
+      },
       select: {
+        actualHours: true,
+        checklist: true,
         createdAt: true,
+        description: true,
+        dueDate: true,
+        estimatedHours: true,
         id: true,
+        labels: true,
+        priority: true,
+
+        project: {
+          select: {
+            id: true,
+          },
+        },
+
+        recurringPattern: true,
+        status: true,
+        title: true,
         updatedAt: true,
       },
     });
@@ -46,8 +71,25 @@ export class TasksControllerBase {
     return this.service.tasksItems({
       ...args,
       select: {
+        actualHours: true,
+        checklist: true,
         createdAt: true,
+        description: true,
+        dueDate: true,
+        estimatedHours: true,
         id: true,
+        labels: true,
+        priority: true,
+
+        project: {
+          select: {
+            id: true,
+          },
+        },
+
+        recurringPattern: true,
+        status: true,
+        title: true,
         updatedAt: true,
       },
     });
@@ -62,8 +104,25 @@ export class TasksControllerBase {
     const result = await this.service.tasks({
       where: params,
       select: {
+        actualHours: true,
+        checklist: true,
         createdAt: true,
+        description: true,
+        dueDate: true,
+        estimatedHours: true,
         id: true,
+        labels: true,
+        priority: true,
+
+        project: {
+          select: {
+            id: true,
+          },
+        },
+
+        recurringPattern: true,
+        status: true,
+        title: true,
         updatedAt: true,
       },
     });
@@ -85,10 +144,35 @@ export class TasksControllerBase {
     try {
       return await this.service.updateTasks({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          project: data.project
+            ? {
+                connect: data.project,
+              }
+            : undefined,
+        },
         select: {
+          actualHours: true,
+          checklist: true,
           createdAt: true,
+          description: true,
+          dueDate: true,
+          estimatedHours: true,
           id: true,
+          labels: true,
+          priority: true,
+
+          project: {
+            select: {
+              id: true,
+            },
+          },
+
+          recurringPattern: true,
+          status: true,
+          title: true,
           updatedAt: true,
         },
       });
@@ -112,8 +196,25 @@ export class TasksControllerBase {
       return await this.service.deleteTasks({
         where: params,
         select: {
+          actualHours: true,
+          checklist: true,
           createdAt: true,
+          description: true,
+          dueDate: true,
+          estimatedHours: true,
           id: true,
+          labels: true,
+          priority: true,
+
+          project: {
+            select: {
+              id: true,
+            },
+          },
+
+          recurringPattern: true,
+          status: true,
+          title: true,
           updatedAt: true,
         },
       });

@@ -17,7 +17,11 @@ import { Departments } from "./Departments";
 import { DepartmentsCountArgs } from "./DepartmentsCountArgs";
 import { DepartmentsFindManyArgs } from "./DepartmentsFindManyArgs";
 import { DepartmentsFindUniqueArgs } from "./DepartmentsFindUniqueArgs";
+import { CreateDepartmentsArgs } from "./CreateDepartmentsArgs";
+import { UpdateDepartmentsArgs } from "./UpdateDepartmentsArgs";
 import { DeleteDepartmentsArgs } from "./DeleteDepartmentsArgs";
+import { TeamsFindManyArgs } from "../../teams/base/TeamsFindManyArgs";
+import { Teams } from "../../teams/base/Teams";
 import { DepartmentsService } from "../departments.service";
 @graphql.Resolver(() => Departments)
 export class DepartmentsResolverBase {
@@ -51,6 +55,35 @@ export class DepartmentsResolverBase {
   }
 
   @graphql.Mutation(() => Departments)
+  async createDepartments(
+    @graphql.Args() args: CreateDepartmentsArgs
+  ): Promise<Departments> {
+    return await this.service.createDepartments({
+      ...args,
+      data: args.data,
+    });
+  }
+
+  @graphql.Mutation(() => Departments)
+  async updateDepartments(
+    @graphql.Args() args: UpdateDepartmentsArgs
+  ): Promise<Departments | null> {
+    try {
+      return await this.service.updateDepartments({
+        ...args,
+        data: args.data,
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new GraphQLError(
+          `No resource was found for ${JSON.stringify(args.where)}`
+        );
+      }
+      throw error;
+    }
+  }
+
+  @graphql.Mutation(() => Departments)
   async deleteDepartments(
     @graphql.Args() args: DeleteDepartmentsArgs
   ): Promise<Departments | null> {
@@ -64,5 +97,19 @@ export class DepartmentsResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => [Teams], { name: "teamsItems" })
+  async findTeamsItems(
+    @graphql.Parent() parent: Departments,
+    @graphql.Args() args: TeamsFindManyArgs
+  ): Promise<Teams[]> {
+    const results = await this.service.findTeamsItems(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 }

@@ -1,11 +1,30 @@
 import * as React from "react";
-import { Edit, SimpleForm, EditProps } from "react-admin";
+
+import {
+  Edit,
+  SimpleForm,
+  EditProps,
+  TextInput,
+  ReferenceArrayInput,
+  SelectArrayInput,
+} from "react-admin";
+
+import { TeamsTitle } from "../teams/TeamsTitle";
 
 export const DepartmentsEdit = (props: EditProps): React.ReactElement => {
   return (
     <Edit {...props}>
       <SimpleForm>
-        <div />
+        <TextInput label="description" multiline source="description" />
+        <TextInput label="manager" source="manager" />
+        <TextInput label="name" source="name" />
+        <ReferenceArrayInput source="teamsItems" reference="Teams">
+          <SelectArrayInput
+            optionText={TeamsTitle}
+            parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
+            format={(value: any) => value && value.map((v: any) => v.id)}
+          />
+        </ReferenceArrayInput>
       </SimpleForm>
     </Edit>
   );

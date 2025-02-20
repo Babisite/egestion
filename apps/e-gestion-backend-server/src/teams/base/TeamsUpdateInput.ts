@@ -9,5 +9,54 @@ https://docs.amplication.com/how-to/custom-code
 
 ------------------------------------------------------------------------------
   */
-class TeamsUpdateInput {}
+import { InputType, Field } from "@nestjs/graphql";
+import { ApiProperty } from "@nestjs/swagger";
+import { DepartmentsWhereUniqueInput } from "../../departments/base/DepartmentsWhereUniqueInput";
+import {
+  ValidateNested,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from "class-validator";
+import { Type } from "class-transformer";
+
+@InputType()
+class TeamsUpdateInput {
+  @ApiProperty({
+    required: false,
+    type: () => DepartmentsWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => DepartmentsWhereUniqueInput)
+  @IsOptional()
+  @Field(() => DepartmentsWhereUniqueInput, {
+    nullable: true,
+  })
+  department?: DepartmentsWhereUniqueInput | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  name?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  teamLeader?: string | null;
+}
+
 export { TeamsUpdateInput as TeamsUpdateInput };

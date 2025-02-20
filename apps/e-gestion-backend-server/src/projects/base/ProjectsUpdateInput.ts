@@ -9,5 +9,25 @@ https://docs.amplication.com/how-to/custom-code
 
 ------------------------------------------------------------------------------
   */
-class ProjectsUpdateInput {}
+import { InputType, Field } from "@nestjs/graphql";
+import { ApiProperty } from "@nestjs/swagger";
+import { TasksUpdateManyWithoutProjectsItemsInput } from "./TasksUpdateManyWithoutProjectsItemsInput";
+import { ValidateNested, IsOptional } from "class-validator";
+import { Type } from "class-transformer";
+
+@InputType()
+class ProjectsUpdateInput {
+  @ApiProperty({
+    required: false,
+    type: () => TasksUpdateManyWithoutProjectsItemsInput,
+  })
+  @ValidateNested()
+  @Type(() => TasksUpdateManyWithoutProjectsItemsInput)
+  @IsOptional()
+  @Field(() => TasksUpdateManyWithoutProjectsItemsInput, {
+    nullable: true,
+  })
+  tasksItems?: TasksUpdateManyWithoutProjectsItemsInput;
+}
+
 export { ProjectsUpdateInput as ProjectsUpdateInput };

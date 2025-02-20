@@ -10,7 +10,11 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
-import { Prisma, Projects as PrismaProjects } from "@prisma/client";
+import {
+  Prisma,
+  Projects as PrismaProjects,
+  Tasks as PrismaTasks,
+} from "@prisma/client";
 
 export class ProjectsServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
@@ -43,5 +47,16 @@ export class ProjectsServiceBase {
     args: Prisma.ProjectsDeleteArgs
   ): Promise<PrismaProjects> {
     return this.prisma.projects.delete(args);
+  }
+
+  async findTasksItems(
+    parentId: string,
+    args: Prisma.TasksFindManyArgs
+  ): Promise<PrismaTasks[]> {
+    return this.prisma.projects
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .tasksItems(args);
   }
 }

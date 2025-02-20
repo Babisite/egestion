@@ -22,6 +22,9 @@ import { Projects } from "./Projects";
 import { ProjectsFindManyArgs } from "./ProjectsFindManyArgs";
 import { ProjectsWhereUniqueInput } from "./ProjectsWhereUniqueInput";
 import { ProjectsUpdateInput } from "./ProjectsUpdateInput";
+import { TasksFindManyArgs } from "../../tasks/base/TasksFindManyArgs";
+import { Tasks } from "../../tasks/base/Tasks";
+import { TasksWhereUniqueInput } from "../../tasks/base/TasksWhereUniqueInput";
 
 export class ProjectsControllerBase {
   constructor(protected readonly service: ProjectsService) {}
@@ -127,5 +130,96 @@ export class ProjectsControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.Get("/:id/tasksItems")
+  @ApiNestedQuery(TasksFindManyArgs)
+  async findTasksItems(
+    @common.Req() request: Request,
+    @common.Param() params: ProjectsWhereUniqueInput
+  ): Promise<Tasks[]> {
+    const query = plainToClass(TasksFindManyArgs, request.query);
+    const results = await this.service.findTasksItems(params.id, {
+      ...query,
+      select: {
+        actualHours: true,
+        checklist: true,
+        createdAt: true,
+        description: true,
+        dueDate: true,
+        estimatedHours: true,
+        id: true,
+        labels: true,
+        priority: true,
+
+        project: {
+          select: {
+            id: true,
+          },
+        },
+
+        recurringPattern: true,
+        status: true,
+        title: true,
+        updatedAt: true,
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/tasksItems")
+  async connectTasksItems(
+    @common.Param() params: ProjectsWhereUniqueInput,
+    @common.Body() body: TasksWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      tasksItems: {
+        connect: body,
+      },
+    };
+    await this.service.updateProjects({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/tasksItems")
+  async updateTasksItems(
+    @common.Param() params: ProjectsWhereUniqueInput,
+    @common.Body() body: TasksWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      tasksItems: {
+        set: body,
+      },
+    };
+    await this.service.updateProjects({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/tasksItems")
+  async disconnectTasksItems(
+    @common.Param() params: ProjectsWhereUniqueInput,
+    @common.Body() body: TasksWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      tasksItems: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateProjects({
+      where: params,
+      data,
+      select: { id: true },
+    });
   }
 }

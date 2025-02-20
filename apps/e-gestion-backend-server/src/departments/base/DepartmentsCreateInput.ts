@@ -9,5 +9,66 @@ https://docs.amplication.com/how-to/custom-code
 
 ------------------------------------------------------------------------------
   */
-class DepartmentsCreateInput {}
+import { InputType, Field } from "@nestjs/graphql";
+import { ApiProperty } from "@nestjs/swagger";
+import {
+  IsString,
+  MaxLength,
+  IsOptional,
+  ValidateNested,
+} from "class-validator";
+import { TeamsCreateNestedManyWithoutDepartmentsItemsInput } from "./TeamsCreateNestedManyWithoutDepartmentsItemsInput";
+import { Type } from "class-transformer";
+
+@InputType()
+class DepartmentsCreateInput {
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  description?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  manager?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  name?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => TeamsCreateNestedManyWithoutDepartmentsItemsInput,
+  })
+  @ValidateNested()
+  @Type(() => TeamsCreateNestedManyWithoutDepartmentsItemsInput)
+  @IsOptional()
+  @Field(() => TeamsCreateNestedManyWithoutDepartmentsItemsInput, {
+    nullable: true,
+  })
+  teamsItems?: TeamsCreateNestedManyWithoutDepartmentsItemsInput;
+}
+
 export { DepartmentsCreateInput as DepartmentsCreateInput };

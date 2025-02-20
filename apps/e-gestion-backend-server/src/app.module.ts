@@ -1,10 +1,10 @@
 import { Module } from "@nestjs/common";
 import { DepartmentsModule } from "./departments/departments.module";
-import { SkillsModule } from "./skills/skills.module";
 import { ProjectsModule } from "./projects/projects.module";
+import { SkillsModule } from "./skills/skills.module";
 import { TeamsModule } from "./teams/teams.module";
-import { MeetingsModule } from "./meetings/meetings.module";
 import { TasksModule } from "./tasks/tasks.module";
+import { MeetingsModule } from "./meetings/meetings.module";
 import { ResourcesModule } from "./resources/resources.module";
 import { UserModule } from "./user/user.module";
 import { HealthModule } from "./health/health.module";
@@ -20,11 +20,11 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
   controllers: [],
   imports: [
     DepartmentsModule,
-    SkillsModule,
     ProjectsModule,
+    SkillsModule,
     TeamsModule,
-    MeetingsModule,
     TasksModule,
+    MeetingsModule,
     ResourcesModule,
     UserModule,
     HealthModule,

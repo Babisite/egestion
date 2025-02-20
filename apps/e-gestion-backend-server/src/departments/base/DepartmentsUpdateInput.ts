@@ -9,5 +9,66 @@ https://docs.amplication.com/how-to/custom-code
 
 ------------------------------------------------------------------------------
   */
-class DepartmentsUpdateInput {}
+import { InputType, Field } from "@nestjs/graphql";
+import { ApiProperty } from "@nestjs/swagger";
+import {
+  IsString,
+  MaxLength,
+  IsOptional,
+  ValidateNested,
+} from "class-validator";
+import { TeamsUpdateManyWithoutDepartmentsItemsInput } from "./TeamsUpdateManyWithoutDepartmentsItemsInput";
+import { Type } from "class-transformer";
+
+@InputType()
+class DepartmentsUpdateInput {
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  description?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  manager?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  name?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => TeamsUpdateManyWithoutDepartmentsItemsInput,
+  })
+  @ValidateNested()
+  @Type(() => TeamsUpdateManyWithoutDepartmentsItemsInput)
+  @IsOptional()
+  @Field(() => TeamsUpdateManyWithoutDepartmentsItemsInput, {
+    nullable: true,
+  })
+  teamsItems?: TeamsUpdateManyWithoutDepartmentsItemsInput;
+}
+
 export { DepartmentsUpdateInput as DepartmentsUpdateInput };

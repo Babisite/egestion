@@ -17,7 +17,10 @@ import { Tasks } from "./Tasks";
 import { TasksCountArgs } from "./TasksCountArgs";
 import { TasksFindManyArgs } from "./TasksFindManyArgs";
 import { TasksFindUniqueArgs } from "./TasksFindUniqueArgs";
+import { CreateTasksArgs } from "./CreateTasksArgs";
+import { UpdateTasksArgs } from "./UpdateTasksArgs";
 import { DeleteTasksArgs } from "./DeleteTasksArgs";
+import { Projects } from "../../projects/base/Projects";
 import { TasksService } from "../tasks.service";
 @graphql.Resolver(() => Tasks)
 export class TasksResolverBase {
@@ -49,6 +52,49 @@ export class TasksResolverBase {
   }
 
   @graphql.Mutation(() => Tasks)
+  async createTasks(@graphql.Args() args: CreateTasksArgs): Promise<Tasks> {
+    return await this.service.createTasks({
+      ...args,
+      data: {
+        ...args.data,
+
+        project: args.data.project
+          ? {
+              connect: args.data.project,
+            }
+          : undefined,
+      },
+    });
+  }
+
+  @graphql.Mutation(() => Tasks)
+  async updateTasks(
+    @graphql.Args() args: UpdateTasksArgs
+  ): Promise<Tasks | null> {
+    try {
+      return await this.service.updateTasks({
+        ...args,
+        data: {
+          ...args.data,
+
+          project: args.data.project
+            ? {
+                connect: args.data.project,
+              }
+            : undefined,
+        },
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new GraphQLError(
+          `No resource was found for ${JSON.stringify(args.where)}`
+        );
+      }
+      throw error;
+    }
+  }
+
+  @graphql.Mutation(() => Tasks)
   async deleteTasks(
     @graphql.Args() args: DeleteTasksArgs
   ): Promise<Tasks | null> {
@@ -62,5 +108,18 @@ export class TasksResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => Projects, {
+    nullable: true,
+    name: "project",
+  })
+  async getProject(@graphql.Parent() parent: Tasks): Promise<Projects | null> {
+    const result = await this.service.getProject(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }

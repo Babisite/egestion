@@ -18,46 +18,98 @@ import { UserService } from "../user.service";
 const nonExistingId = "nonExistingId";
 const existingId = "existingId";
 const CREATE_INPUT = {
+  age: 42,
   createdAt: new Date(),
+  department: "exampleDepartment",
   email: "exampleEmail",
   firstName: "exampleFirstName",
+  firstname: "exampleFirstname",
+  hireDate: new Date(),
   id: "exampleId",
+  isActive: "true",
+  lastLoginDate: new Date(),
   lastName: "exampleLastName",
+  lastname: "exampleLastname",
   password: "examplePassword",
+  phoneNumber: "examplePhoneNumber",
+  profilePictureUrl: "exampleProfilePictureUrl",
+  role: "exampleRole",
+  securityClearance: "exampleSecurityClearance",
+  status: "exampleStatus",
   updatedAt: new Date(),
   username: "exampleUsername",
+  vacationDays: 42,
 };
 const CREATE_RESULT = {
+  age: 42,
   createdAt: new Date(),
+  department: "exampleDepartment",
   email: "exampleEmail",
   firstName: "exampleFirstName",
+  firstname: "exampleFirstname",
+  hireDate: new Date(),
   id: "exampleId",
+  isActive: "true",
+  lastLoginDate: new Date(),
   lastName: "exampleLastName",
+  lastname: "exampleLastname",
   password: "examplePassword",
+  phoneNumber: "examplePhoneNumber",
+  profilePictureUrl: "exampleProfilePictureUrl",
+  role: "exampleRole",
+  securityClearance: "exampleSecurityClearance",
+  status: "exampleStatus",
   updatedAt: new Date(),
   username: "exampleUsername",
+  vacationDays: 42,
 };
 const FIND_MANY_RESULT = [
   {
+    age: 42,
     createdAt: new Date(),
+    department: "exampleDepartment",
     email: "exampleEmail",
     firstName: "exampleFirstName",
+    firstname: "exampleFirstname",
+    hireDate: new Date(),
     id: "exampleId",
+    isActive: "true",
+    lastLoginDate: new Date(),
     lastName: "exampleLastName",
+    lastname: "exampleLastname",
     password: "examplePassword",
+    phoneNumber: "examplePhoneNumber",
+    profilePictureUrl: "exampleProfilePictureUrl",
+    role: "exampleRole",
+    securityClearance: "exampleSecurityClearance",
+    status: "exampleStatus",
     updatedAt: new Date(),
     username: "exampleUsername",
+    vacationDays: 42,
   },
 ];
 const FIND_ONE_RESULT = {
+  age: 42,
   createdAt: new Date(),
+  department: "exampleDepartment",
   email: "exampleEmail",
   firstName: "exampleFirstName",
+  firstname: "exampleFirstname",
+  hireDate: new Date(),
   id: "exampleId",
+  isActive: "true",
+  lastLoginDate: new Date(),
   lastName: "exampleLastName",
+  lastname: "exampleLastname",
   password: "examplePassword",
+  phoneNumber: "examplePhoneNumber",
+  profilePictureUrl: "exampleProfilePictureUrl",
+  role: "exampleRole",
+  securityClearance: "exampleSecurityClearance",
+  status: "exampleStatus",
   updatedAt: new Date(),
   username: "exampleUsername",
+  vacationDays: 42,
 };
 
 const service = {
@@ -143,6 +195,8 @@ describe("User", () => {
       .expect({
         ...CREATE_RESULT,
         createdAt: CREATE_RESULT.createdAt.toISOString(),
+        hireDate: CREATE_RESULT.hireDate.toISOString(),
+        lastLoginDate: CREATE_RESULT.lastLoginDate.toISOString(),
         updatedAt: CREATE_RESULT.updatedAt.toISOString(),
       });
   });
@@ -155,6 +209,8 @@ describe("User", () => {
         {
           ...FIND_MANY_RESULT[0],
           createdAt: FIND_MANY_RESULT[0].createdAt.toISOString(),
+          hireDate: FIND_MANY_RESULT[0].hireDate.toISOString(),
+          lastLoginDate: FIND_MANY_RESULT[0].lastLoginDate.toISOString(),
           updatedAt: FIND_MANY_RESULT[0].updatedAt.toISOString(),
         },
       ]);
@@ -178,6 +234,8 @@ describe("User", () => {
       .expect({
         ...FIND_ONE_RESULT,
         createdAt: FIND_ONE_RESULT.createdAt.toISOString(),
+        hireDate: FIND_ONE_RESULT.hireDate.toISOString(),
+        lastLoginDate: FIND_ONE_RESULT.lastLoginDate.toISOString(),
         updatedAt: FIND_ONE_RESULT.updatedAt.toISOString(),
       });
   });
@@ -191,6 +249,8 @@ describe("User", () => {
       .expect({
         ...CREATE_RESULT,
         createdAt: CREATE_RESULT.createdAt.toISOString(),
+        hireDate: CREATE_RESULT.hireDate.toISOString(),
+        lastLoginDate: CREATE_RESULT.lastLoginDate.toISOString(),
         updatedAt: CREATE_RESULT.updatedAt.toISOString(),
       })
       .then(function () {

@@ -1,10 +1,34 @@
 import { InputJsonValue } from "../../types";
 
 export type UserUpdateInput = {
+  address?: InputJsonValue;
+  age?: number | null;
+  bankDetails?: InputJsonValue;
+  department?: string | null;
+  documents?: InputJsonValue;
   email?: string | null;
+  emergencyContact?: InputJsonValue;
   firstName?: string | null;
+  firstname?: string | null;
+  hireDate?: Date | null;
+  isActive?: boolean | null;
+  lastLoginDate?: Date | null;
   lastName?: string | null;
+  lastname?: string | null;
+  notificationPreferences?: InputJsonValue;
   password?: string;
+  phoneNumber?: string | null;
+  preferences?: InputJsonValue;
+  profilePictureUrl?: string | null;
+  role?: string | null;
   roles?: InputJsonValue;
+  securityClearance?: string | null;
+  skills?: Array<"Option1">;
+  socialLinks?: InputJsonValue;
+  status?: string | null;
+  themePreference?: "Option1" | null;
   username?: string;
+  vacationDays?: number | null;
+  workingHours?: InputJsonValue;
+  workspaceSettings?: InputJsonValue;
 };

@@ -1,10 +1,37 @@
+import { JsonFilter } from "../../util/JsonFilter";
+import { IntNullableFilter } from "../../util/IntNullableFilter";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
+import { BooleanNullableFilter } from "../../util/BooleanNullableFilter";
 
 export type UserWhereInput = {
+  address?: JsonFilter;
+  age?: IntNullableFilter;
+  bankDetails?: JsonFilter;
+  department?: StringNullableFilter;
+  documents?: JsonFilter;
   email?: StringNullableFilter;
+  emergencyContact?: JsonFilter;
   firstName?: StringNullableFilter;
+  firstname?: StringNullableFilter;
+  hireDate?: DateTimeNullableFilter;
   id?: StringFilter;
+  isActive?: BooleanNullableFilter;
+  lastLoginDate?: DateTimeNullableFilter;
   lastName?: StringNullableFilter;
+  lastname?: StringNullableFilter;
+  notificationPreferences?: JsonFilter;
+  phoneNumber?: StringNullableFilter;
+  preferences?: JsonFilter;
+  profilePictureUrl?: StringNullableFilter;
+  role?: StringNullableFilter;
+  securityClearance?: StringNullableFilter;
+  socialLinks?: JsonFilter;
+  status?: StringNullableFilter;
+  themePreference?: "Option1";
   username?: StringFilter;
+  vacationDays?: IntNullableFilter;
+  workingHours?: JsonFilter;
+  workspaceSettings?: JsonFilter;
 };

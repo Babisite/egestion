@@ -1,13 +1,37 @@
 import { SortOrder } from "../../util/SortOrder";
 
 export type UserOrderByInput = {
+  address?: SortOrder;
+  age?: SortOrder;
+  bankDetails?: SortOrder;
   createdAt?: SortOrder;
+  department?: SortOrder;
+  documents?: SortOrder;
   email?: SortOrder;
+  emergencyContact?: SortOrder;
   firstName?: SortOrder;
+  firstname?: SortOrder;
+  hireDate?: SortOrder;
   id?: SortOrder;
+  isActive?: SortOrder;
+  lastLoginDate?: SortOrder;
   lastName?: SortOrder;
+  lastname?: SortOrder;
+  notificationPreferences?: SortOrder;
   password?: SortOrder;
+  phoneNumber?: SortOrder;
+  preferences?: SortOrder;
+  profilePictureUrl?: SortOrder;
+  role?: SortOrder;
   roles?: SortOrder;
+  securityClearance?: SortOrder;
+  skills?: SortOrder;
+  socialLinks?: SortOrder;
+  status?: SortOrder;
+  themePreference?: SortOrder;
   updatedAt?: SortOrder;
   username?: SortOrder;
+  vacationDays?: SortOrder;
+  workingHours?: SortOrder;
+  workspaceSettings?: SortOrder;
 };

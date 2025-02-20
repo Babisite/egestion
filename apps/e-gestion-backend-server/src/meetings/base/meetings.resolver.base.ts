@@ -17,6 +17,8 @@ import { Meetings } from "./Meetings";
 import { MeetingsCountArgs } from "./MeetingsCountArgs";
 import { MeetingsFindManyArgs } from "./MeetingsFindManyArgs";
 import { MeetingsFindUniqueArgs } from "./MeetingsFindUniqueArgs";
+import { CreateMeetingsArgs } from "./CreateMeetingsArgs";
+import { UpdateMeetingsArgs } from "./UpdateMeetingsArgs";
 import { DeleteMeetingsArgs } from "./DeleteMeetingsArgs";
 import { MeetingsService } from "../meetings.service";
 @graphql.Resolver(() => Meetings)
@@ -48,6 +50,35 @@ export class MeetingsResolverBase {
       return null;
     }
     return result;
+  }
+
+  @graphql.Mutation(() => Meetings)
+  async createMeetings(
+    @graphql.Args() args: CreateMeetingsArgs
+  ): Promise<Meetings> {
+    return await this.service.createMeetings({
+      ...args,
+      data: args.data,
+    });
+  }
+
+  @graphql.Mutation(() => Meetings)
+  async updateMeetings(
+    @graphql.Args() args: UpdateMeetingsArgs
+  ): Promise<Meetings | null> {
+    try {
+      return await this.service.updateMeetings({
+        ...args,
+        data: args.data,
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new GraphQLError(
+          `No resource was found for ${JSON.stringify(args.where)}`
+        );
+      }
+      throw error;
+    }
   }
 
   @graphql.Mutation(() => Meetings)
